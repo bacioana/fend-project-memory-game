@@ -2,6 +2,10 @@
  * Create a list that holds all of your cards
  */
 
+let cards=[];
+$('.card').each(function(){
+	cards.push($(this).find('i').attr('class'));
+})
 
 /*
  * Display the cards on the page
@@ -11,6 +15,7 @@
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
+
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -25,6 +30,17 @@ function shuffle(array) {
     return array;
 }
 
+cards=shuffle(cards);
+// Updating the list with the new cards
+let i=0;
+while(i<=cards.length){	
+	$('.card').each(function(){	
+		let a=cards[i];		
+		$(this).find('i').attr('class',a);
+		i++;
+	});	
+};
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -37,10 +53,26 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-
-const deckOfCards = $('.card');
+const deckOfCards = $('.deck');
 let count=0;
-deckOfCards.on('click', function(){
-	$(this).toggleClass('open show');	
+let compArray=[];
+function openCard(x){
+	x.addClass('open show');
+}
+deckOfCards.on('click','li', function(){	
+	if(!($(this).hasClass('match'))){
+		openCard($(this));
+		const x = $(this).find('i').attr('class');
+		compArray.push(x);
+		if(compArray.length===2){
+				if(compArray[0]===compArray[1]){
+					$('.open').addClass('match');
+					$('.open').removeClass('open show');
+					compArray=[];
+				} else {
+					$('.open').removeClass('open show',1500);
+					compArray=[];
+				}   		
+		}
+	}	
 });
-	
