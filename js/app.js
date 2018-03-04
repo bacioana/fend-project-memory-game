@@ -38,9 +38,9 @@ function shuffle(array) {
  */
 
 
-const deckOfCards = $('.deck');
+const deckOfCards = $('.card');
 let count=0;
-deckOfCards.on('click', 'li' , function(){
+deckOfCards.on('click', function(){
 	$(this).toggleClass('open show');	
 });
 	
