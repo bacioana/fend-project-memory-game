@@ -75,12 +75,20 @@ function hideCards (x){
 // function that compares the open cards and updates the moves number
 let movesNum=0;
 let moves=$('.moves');
+let stars=3;
 function matching (card) {	
 	let x = card.find('i').attr('class');
 	compArray.push(x);
 	if(compArray.length===2){
 				movesNum++;
-				moves.text(`${movesNum} Moves`);			
+				moves.text(`${movesNum} Moves`);
+				if(movesNum>10&&movesNum<14){
+					$('#thirdStar').remove();
+					stars--;
+				} else if (movesNum>14) {
+					$('#secondStar').remove();
+					stars--;
+				}
 				if(compArray[0]===compArray[1]){					
 					lockOpen('open');
 					compArray=[];
