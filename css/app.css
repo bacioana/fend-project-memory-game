@@ -121,6 +121,40 @@ h1 {
     float: right;
     cursor: pointer;
 }
-.hiddenStars{
+.hiddenStars {
     display: none;
+}
+.hiddenItems {
+    display: none;
+}
+
+.checkMarkContainer{
+    width: 240px;
+}
+.checkMark {
+    font-size: 240px;
+    width: 240px;
+    overflow: hidden;
+    opacity: 1;
+    animation: show 2s ease-out;
+    color: green;
+    text-align: center;
+    top:-30px;
+}
+@keyframes show {
+    0%{
+        width: 0;
+        opacity: 0;
+    }
+    100%{
+        width: 240px;
+        opacity: 1;
+    }
+}
+.winPar{
+    white-space:pre-wrap;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 300;
+    font-size: 22px;
 }

@@ -57,6 +57,9 @@ $('.restart').on('click',function(){
 	moves.text(`${movesNum} Moves`);
 	stars=3;
 	$('.fa-star').removeClass('hiddenStars');
+	$('.deck').removeClass('hiddenItems');
+	$('.checkMarkContainer').addClass('hiddenItems');
+	$('.winParContainer').addClass('hiddenItems');
 });
 
 /*
@@ -71,26 +74,33 @@ $('.restart').on('click',function(){
  */
 
 const deckOfCards = $('.deck');
-let count=0;
 let compArray=[];
+
 // function that opens the cards
+
 function openCard(x){
 	x.addClass('open show');
 }
+
 // function that locks the cards that match
+
 function lockOpen (x) {	
 	$(`.${x}`).each(function(){
 		$(this).addClass('match');
 		$(this).removeClass('open show');		
 	});	
 }
+
 // function that hides the cards that didn't match
+
 function hideCards (x){
 	$(`.${x}`).each(function(){
 		$(this).removeClass('open show',1500);		
 	});	
 }
+
 // function that compares the open cards and updates the moves number
+
 let movesNum=0;
 let moves=$('.moves');
 let stars=3;
@@ -102,10 +112,10 @@ function matching (card) {
 				moves.text(`${movesNum} Moves`);
 				if(movesNum>10&&movesNum<14){
 					$('#thirdStar').addClass('hiddenStars');
-					stars--;
+					stars=2;
 				} else if (movesNum>14) {
 					$('#secondStar').addClass('hiddenStars');
-					stars--;
+					stars=1;
 				}
 				if(compArray[0]===compArray[1]){					
 					lockOpen('open');
@@ -117,12 +127,25 @@ function matching (card) {
 		}
 }
 
+// function that congratulates the winner
+
+function win(){
+	const matchedCards = $('.match').length;
+	if(matchedCards===16){
+		$('.deck').addClass('hiddenItems');
+		$('.checkMarkContainer').removeClass('hiddenItems');
+		$('.winPar').text(`Congratulations! You won. \nMoves: ${movesNum}. \nStars: ${stars}.`);
+		$('.winParContainer').removeClass('hiddenItems');
+	}
+}
 
 // event listener that handles the matching of cards
+
 deckOfCards.on('click','li', function(){	
 	if(!($(this).hasClass('match')||($(this).hasClass('open')))){
 		openCard($(this));
 		let compArray=[];				
 		matching($(this));
 	}	
+	win();
 });
