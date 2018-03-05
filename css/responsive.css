@@ -1,12 +1,11 @@
 @media screen and (min-width: 300px) and (max-width: 538px) {
 	body .container{
-		max-width: 100%;		
+		width: 100%;
 		font-size: 20px;
 	}
 
 	.container .deck {
-    	width: 100%;
-	}
+    	width: 100%;	}
 
 	.container .deck .card {    
     	width: 23%;    	
@@ -29,7 +28,7 @@
 @media screen and (min-width: 539px) and (max-width: 750px) {
 	body .container{
 		max-width: 100%;
-		font-size: 26px;
+		font-size: 20px;
 	}
 	.container .deck {
     	width: 100%;
