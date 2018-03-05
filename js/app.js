@@ -72,11 +72,15 @@ function hideCards (x){
 		$(this).removeClass('open show',1500);		
 	});	
 }
-
+// function that compares the open cards and updates the moves number
+let movesNum=0;
+let moves=$('.moves');
 function matching (card) {	
 	let x = card.find('i').attr('class');
 	compArray.push(x);
-	if(compArray.length===2){				
+	if(compArray.length===2){
+				movesNum++;
+				moves.text(`${movesNum} Moves`);			
 				if(compArray[0]===compArray[1]){					
 					lockOpen('open');
 					compArray=[];
@@ -91,7 +95,7 @@ function matching (card) {
 deckOfCards.on('click','li', function(){	
 	if(!($(this).hasClass('match')||($(this).hasClass('open')))){
 		openCard($(this));
-		let compArray=[];
+		let compArray=[];				
 		matching($(this));
 	}	
 });
