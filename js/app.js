@@ -41,7 +41,6 @@ while(i<=cards.length){
 	});	
 };
 
-
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -56,23 +55,43 @@ while(i<=cards.length){
 const deckOfCards = $('.deck');
 let count=0;
 let compArray=[];
+// function that opens the cards
 function openCard(x){
 	x.addClass('open show');
 }
-deckOfCards.on('click','li', function(){	
-	if(!($(this).hasClass('match'))){
-		openCard($(this));
-		const x = $(this).find('i').attr('class');
-		compArray.push(x);
-		if(compArray.length===2){
-				if(compArray[0]===compArray[1]){
-					$('.open').addClass('match');
-					$('.open').removeClass('open show');
+// function that locks the cards that match
+function lockOpen (x) {	
+	$(`.${x}`).each(function(){
+		$(this).addClass('match');
+		$(this).removeClass('open show');		
+	});	
+}
+// function that hides the cards that didn't match
+function hideCards (x){
+	$(`.${x}`).each(function(){
+		$(this).removeClass('open show',1500);		
+	});	
+}
+
+function matching (card) {	
+	let x = card.find('i').attr('class');
+	compArray.push(x);
+	if(compArray.length===2){				
+				if(compArray[0]===compArray[1]){					
+					lockOpen('open');
 					compArray=[];
 				} else {
-					$('.open').removeClass('open show',1500);
+					hideCards('open');
 					compArray=[];
 				}   		
 		}
+}
+
+// event listener that handles the matching of cards
+deckOfCards.on('click','li', function(){	
+	if(!($(this).hasClass('match')||($(this).hasClass('open')))){
+		openCard($(this));
+		let compArray=[];
+		matching($(this));
 	}	
 });
