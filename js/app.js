@@ -30,16 +30,34 @@ function shuffle(array) {
     return array;
 }
 
-cards=shuffle(cards);
 // Updating the list with the new cards
-let i=0;
-while(i<=cards.length){	
-	$('.card').each(function(){	
-		let a=cards[i];		
-		$(this).find('i').attr('class',a);
-		i++;
-	});	
-};
+
+function updateCards(){
+	cards=shuffle(cards);
+	let i=0;
+	while(i<=cards.length){	
+		$('.card').each(function(){	
+			let a=cards[i];		
+			$(this).find('i').attr('class',a);
+			i++;
+		});	
+	};
+}
+
+// initial call to begin with brand new game each time
+
+updateCards();
+
+// event listener for the restart button
+
+$('.restart').on('click',function(){
+	$('.card').attr('class','card');
+	updateCards();
+	movesNum=0;
+	moves.text(`${movesNum} Moves`);
+	stars=3;
+	$('.fa-star').removeClass('hiddenStars');
+});
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -83,10 +101,10 @@ function matching (card) {
 				movesNum++;
 				moves.text(`${movesNum} Moves`);
 				if(movesNum>10&&movesNum<14){
-					$('#thirdStar').remove();
+					$('#thirdStar').addClass('hiddenStars');
 					stars--;
 				} else if (movesNum>14) {
-					$('#secondStar').remove();
+					$('#secondStar').addClass('hiddenStars');
 					stars--;
 				}
 				if(compArray[0]===compArray[1]){					
@@ -98,6 +116,7 @@ function matching (card) {
 				}   		
 		}
 }
+
 
 // event listener that handles the matching of cards
 deckOfCards.on('click','li', function(){	
