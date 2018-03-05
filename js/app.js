@@ -47,6 +47,7 @@ function updateCards(){
 // initial call to begin with brand new game each time
 
 updateCards();
+timing();
 
 // event listener for the restart button
 
@@ -59,7 +60,10 @@ $('.restart').on('click',function(){
 	$('.fa-star').removeClass('hiddenStars');
 	$('.deck').removeClass('hiddenItems');
 	$('.checkMarkContainer').addClass('hiddenItems');
-	$('.winParContainer').addClass('hiddenItems');
+	$('.winParContainer').addClass('hiddenItems');	
+	minutes=0;
+	seconds=0;
+	$('.timer').removeClass('hiddenItems');
 });
 
 /*
@@ -132,16 +136,19 @@ function matching (card) {
 function win(){
 	const matchedCards = $('.match').length;
 	if(matchedCards===16){
+
 		$('.deck').addClass('hiddenItems');
 		$('.checkMarkContainer').removeClass('hiddenItems');
-		$('.winPar').text(`Congratulations! You won. \nMoves: ${movesNum}. \nStars: ${stars}.`);
+		$('.timer').addClass('hiddenItems');
+		$('.winPar').text(`Congratulations! You won. \nMoves: ${movesNum}. \nStars: ${stars}. \nYour time: ${minutes}m:${seconds}s. \nPlay again!`);
 		$('.winParContainer').removeClass('hiddenItems');
 	}
 }
 
 // event listener that handles the matching of cards
 
-deckOfCards.on('click','li', function(){	
+deckOfCards.on('click','li', function(){
+		
 	if(!($(this).hasClass('match')||($(this).hasClass('open')))){
 		openCard($(this));
 		let compArray=[];				
@@ -149,3 +156,24 @@ deckOfCards.on('click','li', function(){
 	}	
 	win();
 });
+
+// timer function
+
+let minutes=0;
+let seconds=0;
+function timing(){
+	setInterval(function (){
+	  	let time=function (){
+	  		if (seconds<60){
+	  			seconds++;
+	  		} else if(seconds === 60){
+	  			minutes++;
+	  			seconds=0;
+	  		}
+	  		return `${minutes}:${seconds}`;
+	  	}
+	  	$('.timer').text(time);
+	},1000);
+}
+
+

@@ -103,27 +103,35 @@ h1 {
     text-align: left;
     width: 345px;
     margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
 }
 
 .score-panel .stars {
     margin: 0;
     padding: 0;
-    display: inline-block;
+    display: flex;
     margin: 0 5px 0 0;
+    width: 23%;
 }
 
 .score-panel .stars li {
     list-style: none;
-    display: inline-block;
+    display: flex;
 }
 
 .score-panel .restart {
-    float: right;
+    display: flex;
+    flex-wrap: wrap;
     cursor: pointer;
+    width: 23%;
 }
+
 .hiddenStars {
     display: none;
 }
+
 .hiddenItems {
     display: none;
 }
@@ -157,4 +165,12 @@ h1 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
     font-size: 22px;
+}
+.timer{
+    font-size: 20px;
+    padding-left: 10px;
+    width: 23%;
+}
+.moves{
+    width: 23%;
 }
