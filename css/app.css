@@ -70,6 +70,7 @@ h1 {
     animation: flip 0.3s;    
     cursor: default;
 }
+
 @keyframes flip {
   0% {
     transform: rotateY(180deg);
@@ -78,6 +79,7 @@ h1 {
     transform: rotateY(0);    
   }
 }
+
 .deck .card.close {
     background: #2e3d49;
     font-size: 0;
@@ -149,6 +151,7 @@ h1 {
     text-align: center;
     top:-30px;
 }
+
 @keyframes show {
     0%{
         width: 0;
@@ -159,6 +162,7 @@ h1 {
         opacity: 1;
     }
 }
+
 .winPar{
     white-space:pre-wrap;
     text-align: center;
@@ -166,11 +170,13 @@ h1 {
     font-weight: 300;
     font-size: 22px;
 }
+
 .timer{
     font-size: 20px;
     padding-left: 10px;
     width: 23%;
 }
+
 .moves{
     width: 23%;
 }
