@@ -1,10 +1,18 @@
 /*
  * Create a list that holds all of your cards
  */
+const game={
+	cards:[],
+	compArray:[],
+	minutes:0,
+	seconds:0,
+	movesNum:0,
+	stars:3,
+}
 
-let cards=[];
+
 $('.card').each(function(){
-	cards.push($(this).find('i').attr('class'));
+	game.cards.push($(this).find('i').attr('class'));
 })
 
 /*
@@ -33,11 +41,11 @@ function shuffle(array) {
 // Updating the list with the new cards
 
 function updateCards(){
-	cards=shuffle(cards);
+	game.cards=shuffle(game.cards);
 	let i=0;
-	while(i<=cards.length){	
+	while(i<=game.cards.length){	
 		$('.card').each(function(){	
-			let a=cards[i];		
+			let a=game.cards[i];		
 			$(this).find('i').attr('class',a);
 			i++;
 		});	
@@ -47,23 +55,21 @@ function updateCards(){
 // initial call to begin with brand new game each time
 
 updateCards();
-timing();
 
 // event listener for the restart button
 
 $('.restart').on('click',function(){
 	$('.card').attr('class','card');
 	updateCards();
-	movesNum=0;
-	moves.text(`${movesNum} Moves`);
-	stars=3;
+	game.movesNum=0;
+	moves.text(`${game.movesNum} Moves`);
+	game.stars=3;
 	$('.fa-star').removeClass('hiddenStars');
 	$('.deck').removeClass('hiddenItems');
 	$('.checkMarkContainer').addClass('hiddenItems');
-	$('.winParContainer').addClass('hiddenItems');	
-	minutes=0;
-	seconds=0;
-	$('.timer').removeClass('hiddenItems');
+	$('.winParContainer').addClass('hiddenItems');
+	$('.timer').addClass('hiddenItems');
+	deckOfCards.on('click','li', restartTimer);
 });
 
 /*
@@ -78,7 +84,6 @@ $('.restart').on('click',function(){
  */
 
 const deckOfCards = $('.deck');
-let compArray=[];
 
 // function that opens the cards
 
@@ -105,28 +110,28 @@ function hideCards (x){
 
 // function that compares the open cards and updates the moves number
 
-let movesNum=0;
+
 let moves=$('.moves');
-let stars=3;
+
 function matching (card) {	
 	let x = card.find('i').attr('class');
-	compArray.push(x);
-	if(compArray.length===2){
-				movesNum++;
-				moves.text(`${movesNum} Moves`);
-				if(movesNum>10&&movesNum<14){
+	game.compArray.push(x);
+	if(game.compArray.length===2){
+				game.movesNum++;
+				moves.text(`${game.movesNum} Moves`);
+				if(game.movesNum>10&&game.movesNum<14){
 					$('#thirdStar').addClass('hiddenStars');
-					stars=2;
-				} else if (movesNum>14) {
+					game.stars=2;
+				} else if (game.movesNum>14) {
 					$('#secondStar').addClass('hiddenStars');
-					stars=1;
+					game.stars=1;
 				}
-				if(compArray[0]===compArray[1]){					
+				if(game.compArray[0]===game.compArray[1]){					
 					lockOpen('open');
-					compArray=[];
+					game.compArray=[];
 				} else {
 					hideCards('open');
-					compArray=[];
+					game.compArray=[];
 				}   		
 		}
 }
@@ -136,11 +141,10 @@ function matching (card) {
 function win(){
 	const matchedCards = $('.match').length;
 	if(matchedCards===16){
-
 		$('.deck').addClass('hiddenItems');
 		$('.checkMarkContainer').removeClass('hiddenItems');
 		$('.timer').addClass('hiddenItems');
-		$('.winPar').text(`Congratulations! You won. \nMoves: ${movesNum}. \nStars: ${stars}. \nYour time: ${minutes}m:${seconds}s. \nPlay again!`);
+		$('.winPar').text(`Congratulations! You won. \nMoves: ${game.movesNum}. \nStars: ${game.stars}. \nYour time: ${game.minutes}m:${game.seconds}s. \nPlay again!`);
 		$('.winParContainer').removeClass('hiddenItems');
 	}
 }
@@ -148,10 +152,8 @@ function win(){
 // event listener that handles the matching of cards
 
 deckOfCards.on('click','li', function(){
-		
 	if(!($(this).hasClass('match')||($(this).hasClass('open')))){
-		openCard($(this));
-		let compArray=[];				
+		openCard($(this));					
 		matching($(this));
 	}	
 	win();
@@ -159,21 +161,28 @@ deckOfCards.on('click','li', function(){
 
 // timer function
 
-let minutes=0;
-let seconds=0;
 function timing(){
+	deckOfCards.off('click','li', timing);
 	setInterval(function (){
 	  	let time=function (){
-	  		if (seconds<60){
-	  			seconds++;
-	  		} else if(seconds === 60){
-	  			minutes++;
-	  			seconds=0;
+	  		if (game.seconds<60){
+	  			game.seconds++;
+	  		} else if(game.seconds === 60){
+	  			game.minutes++;
+	  			game.seconds=0;
 	  		}
-	  		return `${minutes}:${seconds}`;
+	  		return `${game.minutes}:${game.seconds}`;
 	  	}
 	  	$('.timer').text(time);
 	},1000);
 }
 
+deckOfCards.on('click','li', timing);
+
+function restartTimer () {
+	game.minutes=0;
+	game.seconds=0;
+	deckOfCards.off('click','li', restartTimer);	
+	$('.timer').removeClass('hiddenItems');
+}
 
