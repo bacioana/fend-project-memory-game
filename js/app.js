@@ -8,6 +8,7 @@ const game={
 	seconds:0,
 	movesNum:0,
 	stars:3,
+	interval:0,
 }
 
 
@@ -163,7 +164,7 @@ deckOfCards.on('click','li', function(){
 
 function timing(){
 	deckOfCards.off('click','li', timing);
-	setInterval(function (){
+	game.interval=setInterval(function (){
 	  	let time=function (){
 	  		if (game.seconds<60){
 	  			game.seconds++;
